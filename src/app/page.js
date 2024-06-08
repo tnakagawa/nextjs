@@ -1,8 +1,9 @@
 
 export default function Home() {
   return (
-    <>
-      <h1>Hello</h1>
-    </>
+    <main className="flex flex-col p-6">
+      <div className="text-xl">Hello</div>
+      <div>{process.env.TEST_ENV}</div>
+    </main>
   );
 }
