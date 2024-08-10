@@ -40,14 +40,17 @@ export default function Scan({
             facingMode: "environment",
         };
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
-        const ratio = (window.screen.width / window.screen.height).toFixed(2);
+        let ratio = (window.screen.width / window.screen.height);
+        ratio = 1 / ratio;
         console.log("raito", window.devicePixelRatio, 1 / window.devicePixelRatio);
         console.log("raito", window.innerWidth, window.innerHeight, window.innerWidth / window.innerHeight);
         console.log("raito", window.outerWidth, window.outerHeight, window.outerWidth / window.outerHeight);
         console.log("raito", window.screen.width, window.screen.height, window.screen.width / window.screen.height);
         const searchParams = new URLSearchParams(window.location.search);
         if (searchParams.get("detail")) {
-            const detail = "raito" + ratio + "\n"
+            const detail = ""
+                + "navigator.userAgent" + navigator.userAgent + "\n"
+                + "raito" + ratio + "\n"
                 + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
                 + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
                 + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
