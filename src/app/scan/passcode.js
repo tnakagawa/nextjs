@@ -2,34 +2,27 @@
 import { useState } from 'react';
 import './style.css';
 
-export default function PassCode({ code, checkOk }) {
+export default function PassCode({ enterPassCode }) {
     const [passCode, setPassCode] = useState("");
-    const [passCodeNg, setPassCodeNg] = useState(false);
+    const [passCodeCancel, setPassCodeCancel] = useState(false);
 
     const addPassCode = (num) => {
         try {
-            if (!passCodeNg) {
+            if (!passCodeCancel) {
                 let newPassCode = passCode;
                 if (num == -1 && newPassCode.length > 0) {
                     newPassCode = newPassCode.substring(0, passCode.length - 1);
                 } else if (0 <= num && num < 10 && passCode.length < 6) {
                     newPassCode += num;
                 }
+                console.log("PassCode", passCode, newPassCode);
                 if (newPassCode.length == 6) {
-                    if (newPassCode == code) {
-                        setTimeout(() => {
-                            checkOk();
-                        }, 500);
-                    } else {
-                        setPassCodeNg(true);
-                        setTimeout(() => {
-                            setPassCode("");
-                            setPassCodeNg(false);
-                        }, 1000);
-                    }
-                }
-                if (newPassCode != passCode) {
                     setPassCode(newPassCode);
+                    enterPassCode(newPassCode, cancel);
+                } else {
+                    if (newPassCode != passCode) {
+                        setPassCode(newPassCode);
+                    }
                 }
             }
         } catch (e) {
@@ -37,11 +30,19 @@ export default function PassCode({ code, checkOk }) {
         }
     };
 
+    const cancel = () => {
+        setPassCodeCancel(true);
+        setTimeout(() => {
+            setPassCode("");
+            setPassCodeCancel(false);
+        }, 1000);
+    }
+
     return (
         <>
-            <div className="flex flex-col justify-center items-center">
+            <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className='mb-2 mt-2 text-slate-500 text-lg'>パスコードを入力</div>
-                <div className={(passCodeNg) ? ('grid grid-cols-6 mb-12 mx-auto passcodeng') : ('grid grid-cols-6 mb-12 mx-auto')}>
+                <div className={(passCodeCancel) ? ('grid grid-cols-6 mb-12 mx-auto passcodeng') : ('grid grid-cols-6 mb-12 mx-auto')}>
                     <div className='w-8 h-8 flex justify-center items-center mx-auto'>
                         {(passCode && passCode.length > 0) ? (
                             <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>

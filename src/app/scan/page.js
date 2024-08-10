@@ -38,9 +38,14 @@ export default function Home() {
                 <div className="w-full h-full fixed top-0 left-0 bg-white ">
                     <div className="mt-20 flex flex-col justify-center items-center">
                         <PassCode
-                            code="123456"
-                            checkOk={() => {
-                                setPassCode(false)
+                            enterPassCode={(code, cancel) => {
+                                if (code == "123456") {
+                                    setTimeout(() => {
+                                        setPassCode(false)
+                                    }, 500);
+                                } else {
+                                    cancel();
+                                }
                             }}
                         />
                     </div>
