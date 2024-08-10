@@ -40,7 +40,10 @@ export default function Scan({
             facingMode: "environment",
         };
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
-        const ratio = window.devicePixelRatio;
+        let ratio = window.devicePixelRatio;
+        if (navigator.userAgent.indexOf('iPhone') >= 0) {
+            ratio = 1 / window.devicePixelRatio;
+        }
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
             + "raito" + ratio + "\n"
