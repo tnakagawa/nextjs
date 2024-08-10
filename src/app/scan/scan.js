@@ -40,22 +40,18 @@ export default function Scan({
             facingMode: "environment",
         };
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
-        let ratio = (window.screen.width / window.screen.height);
-        ratio = 1 / ratio;
-        console.log("raito", window.devicePixelRatio, 1 / window.devicePixelRatio);
-        console.log("raito", window.innerWidth, window.innerHeight, window.innerWidth / window.innerHeight);
-        console.log("raito", window.outerWidth, window.outerHeight, window.outerWidth / window.outerHeight);
-        console.log("raito", window.screen.width, window.screen.height, window.screen.width / window.screen.height);
+        const ratio = (window.screen.height / window.screen.width).toFixed(2);
+        const detail = ""
+            + "navigator.userAgent" + navigator.userAgent + "\n"
+            + "raito" + ratio + "\n"
+            + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
+            + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
+            + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
+            + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
+            + "(window.screen.availWidth,window.screen.availHeight):(" + window.screen.availWidth + "," + window.screen.availHeight + ")";
+        console.log(detail);
         const searchParams = new URLSearchParams(window.location.search);
         if (searchParams.get("detail")) {
-            const detail = ""
-                + "navigator.userAgent" + navigator.userAgent + "\n"
-                + "raito" + ratio + "\n"
-                + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
-                + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
-                + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
-                + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
-                + "(window.screen.availWidth,window.screen.availHeight):(" + window.screen.availWidth + "," + window.screen.availHeight + ")";
             setDetail(detail);
         }
         const configuration = {
@@ -102,7 +98,7 @@ export default function Scan({
                 }} className="text-white absolute top-4 left-4 p-2">✕</div>
                 <div className="text-white fixed top-4 left-1/2 -translate-x-1/2 p-2">スキャン</div>
                 {detail && (<>
-                    <div className="text-white text-xs fixed bottom-4 left-4">{detail}</div>
+                    <div className="text-white text-xs fixed bottom-4 left-4 whitespace-pre-line">{detail}</div>
                 </>)}
             </>)}
             {load && (
