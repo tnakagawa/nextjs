@@ -40,7 +40,7 @@ export default function Scan({
             facingMode: "environment",
         };
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
-        const ratio = (window.screen.height / window.screen.width).toFixed(2);
+        const ratio = window.devicePixelRatio;
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
             + "raito" + ratio + "\n"
