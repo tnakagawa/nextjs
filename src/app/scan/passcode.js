@@ -86,48 +86,48 @@ export default function PassCode({ code, checkOk }) {
                     </div>
                 </div>
                 <div className='grid grid-cols-3 gap-4'>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(1); }}>
-                        <div className='text-2xl text-slate-400'>1</div>
+                        <div className='text-xl text-slate-400'>1</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(2); }}>
-                        <div className='text-2xl text-slate-400'>2</div>
+                        <div className='text-xl text-slate-400'>2</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(3); }}>
-                        <div className='text-2xl text-slate-400'>3</div>
+                        <div className='text-xl text-slate-400'>3</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(4); }}>
-                        <div className='text-2xl text-slate-400'>4</div>
+                        <div className='text-xl text-slate-400'>4</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(5); }}>
-                        <div className='text-2xl text-slate-400'>5</div>
+                        <div className='text-xl text-slate-400'>5</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(6); }}>
-                        <div className='text-2xl text-slate-400'>6</div>
+                        <div className='text-xl text-slate-400'>6</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(7); }}>
-                        <div className='text-2xl text-slate-400'>7</div>
+                        <div className='text-xl text-slate-400'>7</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(8); }}>
-                        <div className='text-2xl text-slate-400'>8</div>
+                        <div className='text-xl text-slate-400'>8</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(9); }}>
-                        <div className='text-2xl text-slate-400'>9</div>
+                        <div className='text-xl text-slate-400'>9</div>
                     </div>
                     <div></div>
-                    <div className='w-20 h-20 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
+                    <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
                         onClick={() => { addPassCode(0); }}>
-                        <div className='text-2xl text-slate-400'>0</div>
+                        <div className='text-xl text-slate-400'>0</div>
                     </div>
-                    <div className='w-20 h-20 rounded-full border-0 flex justify-center items-center active:bg-slate-100'
+                    <div className='w-16 h-16 rounded-full border-0 flex justify-center items-center active:bg-slate-100'
                         onClick={() => { addPassCode(-1); }}>
                         <div className='text-base text-slate-400'>削除</div>
                     </div>
