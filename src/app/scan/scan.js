@@ -42,7 +42,7 @@ export default function Scan({
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
         let ratio = window.devicePixelRatio;
         if (navigator.userAgent.indexOf('iPhone') >= 0) {
-            ratio = 1 / window.devicePixelRatio;
+            ratio = window.innerWidth / window.innerHeight;
         }
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
