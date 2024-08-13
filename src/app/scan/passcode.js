@@ -38,52 +38,25 @@ export default function PassCode({ enterPassCode }) {
         }, 1000);
     }
 
+    const Dots = () => {
+        const item = [];
+        for (let i = 0; i < 6; i++) {
+            item.push(<div className='w-8 h-8 flex justify-center items-center mx-auto'>
+                {(passCode && passCode.length > i) ? (
+                    <div key={i} className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
+                ) : (
+                    <div key={i} className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
+                )}
+            </div>);
+        }
+        return item;
+    }
+
     return (
-        <div className="w-full h-full flex flex-col justify-center items-center">
+        <div className="w-full h-full flex flex-col justify-center items-center select-none">
             <div className='mb-2 mt-2 text-slate-500 text-lg'>パスコードを入力</div>
             <div className={(passCodeCancel) ? ('grid grid-cols-6 mb-12 mx-auto passcodeng') : ('grid grid-cols-6 mb-12 mx-auto')}>
-                <div className='w-8 h-8 flex justify-center items-center mx-auto'>
-                    {(passCode && passCode.length > 0) ? (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
-                    ) : (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
-                    )}
-                </div>
-                <div className='w-8 h-8 flex justify-center items-center mx-auto'>
-                    {(passCode && passCode.length > 1) ? (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
-                    ) : (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
-                    )}
-                </div>
-                <div className='w-8 h-8 flex justify-center items-center mx-auto'>
-                    {(passCode && passCode.length > 2) ? (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
-                    ) : (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
-                    )}
-                </div>
-                <div className='w-8 h-8 flex justify-center items-center mx-auto'>
-                    {(passCode && passCode.length > 3) ? (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
-                    ) : (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
-                    )}
-                </div>
-                <div className='w-8 h-8 flex justify-center items-center mx-auto'>
-                    {(passCode && passCode.length > 4) ? (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
-                    ) : (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
-                    )}
-                </div>
-                <div className='w-8 h-8 flex justify-center items-center mx-auto'>
-                    {(passCode && passCode.length > 5) ? (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-300 bg-black'></div>
-                    ) : (
-                        <div className='w-4 h-4 rounded-full border-2 border-slate-400'></div>
-                    )}
-                </div>
+                <Dots />
             </div>
             <div className='grid grid-cols-3 gap-4'>
                 <div className='w-16 h-16 rounded-full border-2 flex justify-center items-center bg-slate-100 active:bg-white'
@@ -131,6 +104,7 @@ export default function PassCode({ enterPassCode }) {
                     onClick={() => { addPassCode(-1); }}>
                     <div className='text-base text-slate-400'>削除</div>
                 </div>
+                {/* <Nums /> */}
             </div>
         </div>
     );

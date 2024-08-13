@@ -35,14 +35,24 @@ export default function Scan({
     };
 
     useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
         console.log("Scan", "useEffect");
         const cameraIdOrConfig = {
             facingMode: "environment",
         };
+        cameraIdOrConfig.facingMode = "user";
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
-        let ratio = window.devicePixelRatio;
-        if (navigator.userAgent.indexOf('iPhone') >= 0) {
-            ratio = window.innerWidth / window.innerHeight;
+        // https://github.com/mebjas/html5-qrcode/issues/387#issuecomment-1047386145
+        const width = window.innerWidth
+        const height = window.innerHeight
+        const aspectRatio = width / height
+        const reverseAspectRatio = height / width
+        const mobileAspectRatio = reverseAspectRatio > 1.5
+            ? reverseAspectRatio + (reverseAspectRatio * 12 / 100)
+            : reverseAspectRatio
+        let ratio = width < 600 ? mobileAspectRatio : aspectRatio;
+        if (searchParams.get("ratio")) {
+            ratio = 1 / ratio;
         }
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
@@ -53,7 +63,6 @@ export default function Scan({
             + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
             + "(window.screen.availWidth,window.screen.availHeight):(" + window.screen.availWidth + "," + window.screen.availHeight + ")";
         console.log(detail);
-        const searchParams = new URLSearchParams(window.location.search);
         if (searchParams.get("detail")) {
             setDetail(detail);
         }
@@ -63,25 +72,23 @@ export default function Scan({
             aspectRatio: ratio,
         };
         console.log("Scan", "configuration", configuration);
-        const html5QrCode = new Html5Qrcode(qrcodeId);
-        html5QrCodeRef.current = html5QrCode;
-        html5QrCodeRef.current.start(cameraIdOrConfig, configuration, qrCodeSuccessCallback, qrCodeErrorCallback)
-            .then(() => {
-                console.log("Html5Qrcode", "start");
-                setLoad(false);
-            })
-            .catch((e) => {
-                console.error(e);
-                html5QrCodeRef.current = null;
-                setLoad(false);
-            });
-        return async () => {
-            if (html5QrCodeRef.current) {
-                await html5QrCodeRef.current.stop();
-                console.log("Html5Qrcode", "stop");
-                html5QrCodeRef.current = null;
-            }
-        };
+        if (!html5QrCodeRef.current) {
+            const html5QrCode = new Html5Qrcode(qrcodeId);
+            html5QrCodeRef.current = html5QrCode;
+            // console.dir(html5QrCode);
+            html5QrCodeRef.current.start(cameraIdOrConfig, configuration, qrCodeSuccessCallback, qrCodeErrorCallback)
+                .then(() => {
+                    console.log("Html5Qrcode", "start");
+                    console.dir(html5QrCodeRef.current);
+                    setLoad(false);
+                })
+                .catch((e) => {
+                    console.error(e);
+                    html5QrCodeRef.current = null;
+                    setLoad(false);
+                });
+        }
+        return;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -98,7 +105,7 @@ export default function Scan({
                         html5QrCodeRef.current = null;
                     }
                     await onClose();
-                }} className="text-white absolute top-4 left-4 p-2">✕</div>
+                }} className="text-white absolute top-4 left-4 p-2 text-2xl">✕</div>
                 <div className="text-white fixed top-4 left-1/2 -translate-x-1/2 p-2">スキャン</div>
                 {detail && (<>
                     <div className="text-white text-xs fixed bottom-4 left-4 whitespace-pre-line">{detail}</div>
