@@ -40,7 +40,7 @@ export default function Scan({
         const cameraIdOrConfig = {
             facingMode: "environment",
         };
-        cameraIdOrConfig.facingMode = "user";
+        // cameraIdOrConfig.facingMode = "user";
         console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
         // https://github.com/mebjas/html5-qrcode/issues/387#issuecomment-1047386145
         const width = window.innerWidth
