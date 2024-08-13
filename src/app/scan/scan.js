@@ -63,8 +63,8 @@ export default function Scan({
             aspectRatio: ratio,
             videoConstraints: {
                 facingMode: "environment",
-                width: window.screen.availHeight,
-                height: window.screen.availWidth
+                // width: window.screen.availHeight,
+                // height: window.screen.availWidth
             }
         };
         console.log("Scan", "configuration", configuration);
