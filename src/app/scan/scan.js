@@ -38,8 +38,12 @@ export default function Scan({
         const searchParams = new URLSearchParams(window.location.search);
         console.log("Scan", "useEffect");
         let ratio = window.devicePixelRatio;
+        let videoWidth = window.screen.availHeight;
+        let videoHeight = window.screen.availWidth;
         if (searchParams.get("ratio")) {
             ratio = 1 / ratio;
+            videoWidth = window.screen.availWidth;
+            videoHeight = window.screen.availHeight;
         }
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
@@ -63,8 +67,9 @@ export default function Scan({
             aspectRatio: ratio,
             videoConstraints: {
                 facingMode: "environment",
-                // width: window.screen.availHeight,
-                // height: window.screen.availWidth
+                aspectRatio: ratio,
+                width: videoWidth,
+                height: videoHeight,
             }
         };
         console.log("Scan", "configuration", configuration);
