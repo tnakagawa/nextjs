@@ -37,20 +37,7 @@ export default function Scan({
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
         console.log("Scan", "useEffect");
-        const cameraIdOrConfig = {
-            facingMode: "environment",
-        };
-        // cameraIdOrConfig.facingMode = "user";
-        console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
-        // https://github.com/mebjas/html5-qrcode/issues/387#issuecomment-1047386145
-        const width = window.innerWidth
-        const height = window.innerHeight
-        const aspectRatio = width / height
-        const reverseAspectRatio = height / width
-        const mobileAspectRatio = reverseAspectRatio > 1.5
-            ? reverseAspectRatio + (reverseAspectRatio * 12 / 100)
-            : reverseAspectRatio
-        let ratio = width < 600 ? mobileAspectRatio : aspectRatio;
+        let ratio = window.devicePixelRatio;
         if (searchParams.get("ratio")) {
             ratio = 1 / ratio;
         }
@@ -66,10 +53,18 @@ export default function Scan({
         if (searchParams.get("detail")) {
             setDetail(detail);
         }
+        const cameraIdOrConfig = {
+            facingMode: "environment",
+        };
+        console.log("Scan", "cameraIdOrConfig", cameraIdOrConfig);
         const configuration = {
             fps: 10,
             qrbox: 250,
             aspectRatio: ratio,
+            videoConstraints: {
+                width: window.screen.availWidth,
+                height: window.screen.availHeight
+            }
         };
         console.log("Scan", "configuration", configuration);
         if (!html5QrCodeRef.current) {
