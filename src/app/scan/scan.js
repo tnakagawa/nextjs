@@ -62,8 +62,9 @@ export default function Scan({
             qrbox: 250,
             aspectRatio: ratio,
             videoConstraints: {
-                width: window.screen.availWidth,
-                height: window.screen.availHeight
+                facingMode: "environment",
+                width: window.screen.availHeight,
+                height: window.screen.availWidth
             }
         };
         console.log("Scan", "configuration", configuration);
