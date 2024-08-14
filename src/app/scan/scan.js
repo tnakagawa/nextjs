@@ -37,25 +37,11 @@ export default function Scan({
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
         console.log("Scan", "useEffect");
-        let ratio = window.devicePixelRatio;
         let videoWidth = window.screen.availHeight;
         let videoHeight = window.screen.availWidth;
-        if (searchParams.get("ratio")) {
-            ratio = 1 / ratio;
+        if (searchParams.get("ratio") == 'inv') {
             videoWidth = window.screen.availWidth;
             videoHeight = window.screen.availHeight;
-        }
-        const detail = ""
-            + "navigator.userAgent" + navigator.userAgent + "\n"
-            + "raito" + ratio + "\n"
-            + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
-            + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
-            + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
-            + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
-            + "(window.screen.availWidth,window.screen.availHeight):(" + window.screen.availWidth + "," + window.screen.availHeight + ")";
-        console.log(detail);
-        if (searchParams.get("detail")) {
-            setDetail(detail);
         }
         const cameraIdOrConfig = {
             facingMode: "environment",
@@ -64,15 +50,26 @@ export default function Scan({
         const configuration = {
             fps: 10,
             qrbox: 250,
-            aspectRatio: ratio,
             videoConstraints: {
-                facingMode: "environment",
-                aspectRatio: ratio,
+                facingMode: "user",
                 width: videoWidth,
                 height: videoHeight,
             }
         };
         console.log("Scan", "configuration", configuration);
+        const detail = ""
+            + "navigator.userAgent" + navigator.userAgent + "\n"
+            + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
+            + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
+            + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
+            + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
+            + "(window.screen.availWidth,window.screen.availHeight):(" + window.screen.availWidth + "," + window.screen.availHeight + ")\n"
+            + "cameraIdOrConfig:" + JSON.stringify(cameraIdOrConfig) + "\n"
+            + "configuration:" + JSON.stringify(cameraIdOrConfig) + "\n";
+        console.log(detail);
+        if (searchParams.get("detail")) {
+            setDetail(detail);
+        }
         if (!html5QrCodeRef.current) {
             const html5QrCode = new Html5Qrcode(qrcodeId);
             html5QrCodeRef.current = html5QrCode;
