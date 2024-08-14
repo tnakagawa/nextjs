@@ -65,7 +65,7 @@ export default function Scan({
             + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
             + "(window.screen.availWidth,window.screen.availHeight):(" + window.screen.availWidth + "," + window.screen.availHeight + ")\n"
             + "cameraIdOrConfig:" + JSON.stringify(cameraIdOrConfig) + "\n"
-            + "configuration:" + JSON.stringify(cameraIdOrConfig) + "\n";
+            + "configuration:" + JSON.stringify(configuration) + "\n";
         console.log(detail);
         if (searchParams.get("detail")) {
             setDetail(detail);
