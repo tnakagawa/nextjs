@@ -51,7 +51,7 @@ export default function Scan({
             fps: 10,
             qrbox: 250,
             videoConstraints: {
-                facingMode: "user",
+                facingMode: "environment",
                 width: videoWidth,
                 height: videoHeight,
             }
