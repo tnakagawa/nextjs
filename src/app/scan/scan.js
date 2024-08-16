@@ -37,11 +37,12 @@ export default function Scan({
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
         console.log("Scan", "useEffect");
-        let videoWidth = window.innerHeight;
-        let videoHeight = window.innerWidth;
+        let videoWidth = window.innerHeight > window.innerWidth ? window.innerHeight : window.innerWidth;
+        let videoHeight = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
         if (searchParams.get("ratio") == 'inv') {
-            videoWidth = window.innerWidth;
-            videoHeight = window.innerHeight;
+            let tmp = videoWidth;
+            videoWidth = videoHeight;
+            videoHeight = tmp;
         }
         const cameraIdOrConfig = {
             facingMode: "environment",
