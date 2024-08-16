@@ -34,7 +34,7 @@ export default function Scanz({
                 const constraints = {
                     audio: false,
                     video: {
-                        facingMode: 'user',
+                        facingMode: 'environment',
                         width: window.innerWidth,
                         height: window.innerHeight,
                     },
