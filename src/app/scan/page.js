@@ -3,11 +3,13 @@
 
 import { useState } from "react";
 import Scan from "./scan";
+import Scanz from "./scanz";
 import PassCode from "./passcode";
 
 export default function Home() {
 
     const [scan, setScan] = useState(false);
+    const [scanz, setScanz] = useState(false);
     const [passCode, setPassCode] = useState(false);
 
     return (
@@ -17,6 +19,10 @@ export default function Home() {
                     <div className="w-full bg-blue-500 text-white text-center rounded-xl py-2" onClick={async () => {
                         setScan(true);
                     }}>SCAN</div>
+                    <div className="my-4"></div>
+                    <div className="w-full bg-blue-500 text-white text-center rounded-xl py-2" onClick={async () => {
+                        setScanz(true);
+                    }}>SCANZ</div>
                     <div className="my-4"></div>
                     <div className="w-full bg-blue-500 text-white text-center rounded-xl py-2" onClick={async () => {
                         setPassCode(true);
@@ -31,6 +37,16 @@ export default function Home() {
                         setScan(false);
                     }}
                     onClose={async () => { setScan(false); }}
+                />
+            )}
+
+            {scanz && (
+                <Scanz
+                    onScanSuccess={async (qrdata) => {
+                        console.log("onScanSuccess", qrdata);
+                        setScanz(false);
+                    }}
+                    onClose={async () => { setScanz(false); }}
                 />
             )}
 

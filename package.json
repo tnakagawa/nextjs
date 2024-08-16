@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@vercel/postgres": "^0.8.0",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.2",
     "html5-qrcode": "^2.3.8",
     "next": "14.2.3",
     "nextjs": "file:",
