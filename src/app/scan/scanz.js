@@ -1,10 +1,7 @@
 
 'use client';
-import { BrowserQRCodeReader, IScannerControls } from "@zxing/browser"
+import { QRCodeReader, RGBLuminanceSource, BinaryBitmap, HybridBinarizer } from "@zxing/library"
 import { useEffect, useState, useRef } from 'react';
-
-// QRコードリーダーの表示領域のhtmlのID
-const qrcodeId = 'qr-code-reader';
 
 export default function Scanz({
     onScanSuccess,
@@ -12,43 +9,89 @@ export default function Scanz({
     onClose,
 }) {
     const videoRef = useRef(null);
-    const controlsRef = useRef(null);
+    const startRef = useRef(null);
+    const streamRef = useRef(null);
+    const timerRef = useRef(null);
     const [load, setLoad] = useState(true);
     const [detail, setDetail] = useState("");
 
     useEffect(() => {
+        setLoad(true);
+        console.log("useEffect");
         if (videoRef.current) {
-            const codeReader = new BrowserQRCodeReader();
-            codeReader.decodeFromVideoDevice(
-                null,
-                videoRef.current,
-                (result, error, controls) => {
-                    if (error) {
-                        console.log("decodeFromVideoDevice", "error", error);
-                    }
-                    if (result) {
-                        console.log("decodeFromVideoDevice", "result", result);
-                    }
-                }).then((controls) => {
-                    console.log("decodeFromVideoDevice", "then");
-                    controlsRef.current = controls;
-                    console.dir(controls);
+            start().then(() => {
+                if (!startRef.current) {
                     setLoad(false);
-                });
+                }
+            });
         }
     }, []);
 
-    const stop = async () => {
-        if (controlsRef.current) {
-            await controlsRef.current.stop();
-            controlsRef.current = null;
+    const start = async () => {
+        if (!startRef.current) {
+            startRef.current = true;
+            try {
+                const constraints = {
+                    audio: false,
+                    video: {
+                        facingMode: 'user',
+                        width: window.innerWidth,
+                        height: window.innerHeight,
+                    },
+                };
+                streamRef.current = await navigator.mediaDevices.getUserMedia(constraints);
+                videoRef.current.srcObject = streamRef.current;
+                console.dir(videoRef.current);
+                videoRef.current.pause();
+                videoRef.current.play();
+                scan(constraints.video.width, constraints.video.height);
+            } catch (e) {
+                console.error(e);
+            }
+            startRef.current = false;
         }
+    }
+
+    const stop = async () => {
+        console.log("stop");
+        if (timerRef.current) {
+            console.log("stop", "clearInterval", timerRef.current);
+            clearInterval(timerRef.current);
+        }
+        videoRef.current.pause();
+        videoRef.current.srcObject = null;
+        if (streamRef.current) {
+            const tracks = streamRef.current.getTracks();
+            console.log("stop", "streamRef", tracks);
+            tracks[0].stop();
+        }
+    };
+
+    const scan = (width, height) => {
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+        }
+        timerRef.current = setInterval(() => {
+            const canvas = new OffscreenCanvas(width, height);
+            const context = canvas.getContext('2d');
+            context.drawImage(videoRef.current, 0, 0, width, height);
+            const imageData = context.getImageData(0, 0, width, height);
+            const source = new RGBLuminanceSource(new Int32Array(imageData.data.buffer), width, height);
+            const bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            const reader = new QRCodeReader();
+            try {
+                const result = reader.decode(bitmap);
+                console.log(result);
+            } catch (e) {
+                console.dir(e);
+            }
+        }, 1000);
     };
 
     return (
         <>
             <div className="w-full h-full bg-black fixed top-0 left-0 flex justify-center items-center">
-                <video className='w-full mx-auto' ref={videoRef}></video>
+                <video ref={videoRef}></video>
             </div>
             {!load && (<>
                 <div onClick={async () => {
@@ -61,15 +104,12 @@ export default function Scanz({
                 {detail && (<>
                     <div className="text-white text-xs fixed bottom-4 left-4 whitespace-pre-line">{detail}</div>
                 </>)}
-            </>)
-            }
-            {
-                load && (
-                    <div className="w-full h-full fixed top-0 left-0 flex justify-center items-center">
-                        <div className="animate-spin h-20 w-20 mx-1 rounded-full border-2 border-slate-300 border-t-white"></div>
-                    </div >
-                )
-            }
+            </>)}
+            {load && (
+                <div className="w-full h-full fixed top-0 left-0 flex justify-center items-center">
+                    <div className="animate-spin h-20 w-20 mx-1 rounded-full border-2 border-slate-300 border-t-white"></div>
+                </div >
+            )}
         </>
     )
 }
