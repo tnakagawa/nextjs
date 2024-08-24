@@ -9,46 +9,50 @@ export default function Scanz({
     onClose,
 }) {
     const videoRef = useRef(null);
-    const startRef = useRef(null);
     const streamRef = useRef(null);
     const timerRef = useRef(null);
+    const startRef = useRef(false);
     const [load, setLoad] = useState(true);
     const [detail, setDetail] = useState("");
 
     useEffect(() => {
         setLoad(true);
-        console.log("useEffect");
-        if (videoRef.current) {
+        console.log("useEffect", startRef.current);
+        if (!startRef.current) {
+            console.log("useEffect", "start");
+            startRef.current = true;
             start().then(() => {
-                if (!startRef.current) {
-                    setLoad(false);
-                }
+                setLoad(false);
+            }).finally(() => {
+                startRef.current = false;
             });
         }
     }, []);
 
     const start = async () => {
-        if (!startRef.current) {
-            startRef.current = true;
-            try {
-                const constraints = {
-                    audio: false,
-                    video: {
-                        facingMode: 'environment',
-                        width: window.innerWidth,
-                        height: window.innerHeight,
-                    },
-                };
-                streamRef.current = await navigator.mediaDevices.getUserMedia(constraints);
-                videoRef.current.srcObject = streamRef.current;
-                console.dir(videoRef.current);
-                videoRef.current.pause();
-                videoRef.current.play();
-                scan(constraints.video.width, constraints.video.height);
-            } catch (e) {
-                console.error(e);
+        try {
+            console.log("start");
+            const constraints = {
+                audio: false,
+                video: {
+                    facingMode: 'environment',
+                    width: window.innerHeight > window.innerWidth ? window.innerHeight : window.innerWidth,
+                    height: window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight,
+                },
+            };
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            console.log(streamRef.current);
+            if (streamRef.current) {
+                await stop();
             }
-            startRef.current = false;
+            streamRef.current = stream;
+            videoRef.current.srcObject = streamRef.current;
+            console.dir(videoRef.current);
+            videoRef.current.pause();
+            videoRef.current.play();
+            scan(constraints.video.width, constraints.video.height);
+        } catch (e) {
+            console.error(e);
         }
     }
 
