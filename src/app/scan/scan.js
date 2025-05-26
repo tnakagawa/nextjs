@@ -14,6 +14,28 @@ export default function Scan({
     const html5QrCodeRef = useRef(null);
     const [load, setLoad] = useState(true);
     const [detail, setDetail] = useState("");
+    const [windowSize, setWindowSize] = useState({
+        width: 0,
+        height: 0,
+    });
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const handleResize = () => {
+                setWindowSize({
+                    width:
+                        window.innerWidth,
+                    height: window.innerHeight,
+                });
+            };
+
+            window.addEventListener("resize", handleResize);
+            handleResize();
+            return () => window.removeEventListener("resize", handleResize);
+        } else {
+            return;
+        }
+    }, []);
 
 
     const qrCodeSuccessCallback = async (decodedText, decodedResult) => {
@@ -61,6 +83,7 @@ export default function Scan({
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
             + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
+            + "(windowSize.width,windowSize.height):(" + windowSize.width + "," + windowSize.height + ")\n"
             + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
             + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
             + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
