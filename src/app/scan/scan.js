@@ -6,22 +6,16 @@ import { useEffect, useState, useRef } from 'react';
 // QRコードリーダーの表示領域のhtmlのID
 const qrcodeId = 'qr-code-reader';
 
-export default function Scan({
-    onScanSuccess,
-    onScanFailure,
-    onClose,
-}) {
-    const html5QrCodeRef = useRef(null);
-    const [load, setLoad] = useState(true);
-    const [detail, setDetail] = useState("");
+const getWindowSize = () => {
     const [windowSize, setWindowSize] = useState({
-        width: 0,
-        height: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
     });
 
     useEffect(() => {
         if (typeof window !== "undefined") {
             const handleResize = () => {
+                console.log("Resize", "width:", window.innerWidth, "height:", window.innerHeight);
                 setWindowSize({
                     width:
                         window.innerWidth,
@@ -36,7 +30,18 @@ export default function Scan({
             return;
         }
     }, []);
+    return windowSize;
+};
 
+export default function Scan({
+    onScanSuccess,
+    onScanFailure,
+    onClose,
+}) {
+    const html5QrCodeRef = useRef(null);
+    const [load, setLoad] = useState(true);
+    const [detail, setDetail] = useState("");
+    const { height, width } = getWindowSize();
 
     const qrCodeSuccessCallback = async (decodedText, decodedResult) => {
         console.log("Scan", "Success", decodedText);
@@ -83,7 +88,7 @@ export default function Scan({
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
             + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
-            + "(windowSize.width,windowSize.height):(" + windowSize.width + "," + windowSize.height + ")\n"
+            + "(width,height):(" + width + "," + height + ")\n"
             + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
             + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
             + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
