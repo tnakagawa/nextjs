@@ -60,6 +60,7 @@ export default function Scan({
         const detail = ""
             + "navigator.userAgent" + navigator.userAgent + "\n"
             + "window.devicePixelRatio:" + window.devicePixelRatio + "\n"
+            + "(videoWidth,videoHeight):(" + videoWidth + "," + videoHeight + ")\n"
             + "(window.innerWidth,window.innerHeight):(" + window.innerWidth + "," + window.innerHeight + ")\n"
             + "(window.outerWidth,window.outerHeight):(" + window.outerWidth + "," + window.outerHeight + ")\n"
             + "(window.screen.width,window.screen.height):(" + window.screen.width + "," + window.screen.height + ")\n"
